@@ -1,0 +1,39 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+}
+
+.subContainer {
+  display: flex;
+ flex-direction: column;
+}
+
+.label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 5px 10px;
+}
+
+.input {
+  height: 20px;
+  width: 200px;
+}
+
+.button {
+  height: 32px;
+  width: 64px;
+  margin: 20px 0;
+  color: azure;
+  border: 1px solid #068d76;
+  border-radius: 5px;
+  background-color: #068d76;
+  cursor: pointer;
+}
