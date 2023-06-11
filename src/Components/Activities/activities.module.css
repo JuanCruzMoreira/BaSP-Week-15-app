@@ -1,7 +1,36 @@
-.container {
+.h2 {
+  margin-top: 2rem;
+}
+
+.containerActivity {
+  margin-left: 20%;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  width: 80%;
+  margin-left: 20%;
+  margin-top: 10%;
+}
+
+.topContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
+}
+
+.addButton {
+  width: 13rem;
+  padding: 0.9rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  background-color: white;
+  border: solid 1px;
+  border-color: rgba(55, 56, 103);
+  color: rgba(55, 56, 103);
+  text-align: center;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
 }

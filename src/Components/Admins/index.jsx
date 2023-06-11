@@ -1,103 +1,134 @@
 import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
-import Table from './Table';
-import Form from './Form';
-import { Modal } from '../Shared';
+import Table from '../Shared/Table';
+import Button from '../Shared/Button';
+import SharedModal from '../Shared/Modal';
+import { useHistory } from 'react-router-dom';
 
 const Admins = () => {
+  const [isDelete, setIsDelete] = useState(false);
+  const [typeStyle, setTypeStyle] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalInformation, setModalInformation] = useState({ title: '', body: '' });
   const [admins, setAdmins] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [idToEdit, setIdToEdit] = useState('');
-  const [isAdding, setIsAdding] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [idAdmin, setIdAdmin] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const history = useHistory();
 
   const getAdmins = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`);
+      if (!response.ok) {
+        throw new Error('Error retrieving admins');
+      }
       const data = await response.json();
       setAdmins(data.data);
     } catch (error) {
-      alert(error);
+      console.error(error);
     }
   };
 
   useEffect(() => {
     getAdmins();
-  }, []);
+  });
 
-  const onClickButton = () => {
-    setIsAdding(!isAdding);
-    setIsEditing(false);
-    setIsOpen(!isOpen);
-  };
-
-  const actionItem = async (data) => {
-    let url = `${process.env.REACT_APP_API_URL}/api/admins`;
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    };
-    if (isEditing) {
-      options.method = 'PUT';
-      url = `${url}/${idToEdit}`;
-    }
+  const deleteAdmins = async (id) => {
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`, {
+        method: 'DELETE'
+      });
       const data = await response.json();
-      if (response.status !== 200 && response.status !== 201) {
-        throw new Error(data.message);
+      if (!response.ok) {
+        setAlertMessage(data.message);
+        setShowAlert(true);
+      } else {
+        setAlertMessage(data.message);
+        setShowSuccessAlert(true);
       }
-      alert(data.message);
-      setIsEditing(false);
-      setIsAdding(false);
+      setAdmins([...admins.filter((admin) => admin._id !== data.data._id)]);
+      setShowModal(false);
     } catch (error) {
-      alert(error);
+      console.error(error);
     }
   };
 
-  const deleteItem = async (id) => {
-    if (confirm('Are u sure??')) {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`, {
-          method: 'DELETE'
-        });
-        const data = await response.json();
-        if (data?.error) {
-          throw new Error(data.message);
-        }
-        alert(data.message);
-        setAdmins([...admins.filter((user) => user._id !== id)]);
-      } catch (error) {
-        alert(error);
-      }
-    }
+  const handleAddAdmin = () => {
+    history.push('/admins/form');
   };
 
-  const editItem = (id) => {
-    setIsEditing(true);
-    setIsAdding(false);
-    setIdToEdit(id);
+  const handleUpdateAdmin = (id) => {
+    history.push(`/admins/form/${id}`);
+  };
+
+  const handleDeleteAdmin = (id) => {
+    setModalInformation({ title: 'Warning', body: 'Are you sure?' });
+    setIsDelete(true);
+    setShowModal(true);
+    setTypeStyle('default');
+    setIdAdmin(id);
+  };
+
+  const confirmDelete = () => {
+    deleteAdmins(idAdmin);
+  };
+
+  const handleCancelDelete = () => {
+    setShowModal(false);
+  };
+
+  const handleExitAlert = () => {
+    setShowAlert(false);
+    setShowSuccessAlert(false);
   };
 
   return (
-    <section className={styles.container}>
-      <h2>admins</h2>
-      <Table data={admins} editItem={editItem} deleteItem={deleteItem} isEditing={isEditing} />
-      <button className={styles.button} onClick={onClickButton}>
-        +
-      </button>
-      {/* <Button clickAction={onClickButton} text="Add" disabled /> */}
-      {(isAdding || isEditing) && (
-        <Modal isOpen={isOpen} handleClose={onClickButton}>
-          <h3>Add an admin</h3>
-          <Form actionItem={actionItem} isEditing={isEditing} idToEdit={idToEdit} />
-        </Modal>
+    <section className={styles.adminContainer}>
+      <div className={styles.topAdminContainer}>
+        <h2>Admins</h2>
+        <Button text={'+ Add Admins'} type={'add'} clickAction={handleAddAdmin} />
+      </div>
+      {admins.length !== 0 ? (
+        <>
+          <SharedModal
+            isDelete={false}
+            show={showAlert}
+            closeModal={handleExitAlert}
+            title={'Something is wrong'}
+            body={alertMessage}
+          />
+          <SharedModal
+            isDelete={false}
+            show={showSuccessAlert}
+            closeModal={handleExitAlert}
+            typeStyle={'success'}
+            title={'Success'}
+            body={alertMessage}
+          />
+          <SharedModal
+            show={showModal}
+            typeStyle={typeStyle}
+            title={modalInformation.title}
+            body={modalInformation.body}
+            isDelete={isDelete}
+            onConfirm={confirmDelete}
+            closeModal={handleCancelDelete}
+          />
+          <Table
+            data={admins}
+            properties={['firstName', 'lastName', 'phone', 'email']}
+            columnTitles={['First Name', 'Last Name', 'Phone Number', 'Email']}
+            handleUpdateItem={handleUpdateAdmin}
+            handleDeleteItem={handleDeleteAdmin}
+          />
+        </>
+      ) : (
+        <>
+          <h3>There are no admins in the database</h3>
+        </>
       )}
     </section>
   );
 };
-
 export default Admins;

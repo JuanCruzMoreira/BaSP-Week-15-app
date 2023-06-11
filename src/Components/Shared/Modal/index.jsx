@@ -1,17 +1,52 @@
 import React from 'react';
 import styles from './modal.module.css';
+import Button from '../Button';
 
-const Modal = ({ children, isOpen, handleClose }) => {
-  return isOpen ? (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalWrapper}>
-        <button onClick={handleClose} className={styles.closeButton}>
-          X
-        </button>
-        {children}
+const SharedModal = (data) => {
+  let containerStyle;
+
+  if (!data.show) {
+    return null;
+  }
+
+  const onCloseModal = () => {
+    data.closeModal();
+  };
+
+  const onConfirm = () => {
+    data.onConfirm();
+  };
+
+  switch (data.typeStyle) {
+    case 'success':
+      containerStyle = styles.modalContentSuccess;
+      break;
+    case 'error':
+      containerStyle = styles.modalContentError;
+      break;
+    default:
+      containerStyle = styles.modalContentDefault;
+      break;
+  }
+
+  return (
+    <div className={styles.modalContainer}>
+      <div className={containerStyle}>
+        <h3 className={styles.h3Container}>{data.title}</h3>
+        <p className={styles.pContainer}>{data.body}</p>
+        <div className={styles.buttonContainer}>
+          {data.isDelete ? (
+            <>
+              <Button type="cancel" text={'Cancel'} clickAction={onCloseModal} />
+              <Button type="confirm" text={'Confirm'} clickAction={onConfirm} />
+            </>
+          ) : (
+            <Button type="confirm" text={'Confirm'} clickAction={onCloseModal} />
+          )}
+        </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 
-export default Modal;
+export default SharedModal;
