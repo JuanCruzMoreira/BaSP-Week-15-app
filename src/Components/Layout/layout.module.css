@@ -1,5 +1,13 @@
 .container {
   display: flex;
+  justify-content: space-between;
+  min-height: 100vh;
+}
+
+.mainContent {
+  display: flex;
+  width: 80%;
+  flex: 8 1;
   flex-direction: column;
   justify-content: space-between;
 }

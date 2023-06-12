@@ -15,12 +15,14 @@ import SubscriptionsForm from './Components/Subscriptions/Form';
 import SuperAdminsForm from './Components/SuperAdmins/Form';
 import TrainersForm from './Components/Trainers/Form';
 import Home from './Components/Home';
+import Login from './Components/Auth/Login';
 
 const Routes = () => {
   return (
     <>
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
         <Route exact path="/activities" component={Activities} />
         <Route exact path="/activities/form" component={ActivitiesForm} />
         <Route path="/activities/form/:id" component={ActivitiesForm} />

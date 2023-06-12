@@ -1,5 +1,10 @@
+aside {
+  width: 20%;
+}
+
 .navbar {
   display: flex;
+  flex: 2;
   flex-direction: column;
   position: fixed;
   bottom: 0;

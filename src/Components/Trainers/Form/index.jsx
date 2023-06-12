@@ -222,7 +222,7 @@ const Form = () => {
         typeStyle={modalTypeStyle}
         closeModal={handleCloseModal}
         onConfirm={() => {
-          handleSubmit;
+          handleSubmit();
         }}
       />
     </form>

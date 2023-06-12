@@ -80,7 +80,7 @@ const Classes = () => {
         <h2>Classes</h2>
         <Button text={'+ Add Class'} type={'add'} clickAction={handleAddClass} />
       </div>
-      {classes.length !== 0 ? (
+      {classes?.length !== 0 ? (
         <>
           <Table
             data={classes}

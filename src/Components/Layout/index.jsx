@@ -6,9 +6,11 @@ import SideBar from '../SideBar';
 const Layout = () => {
   return (
     <div className={styles.container}>
-      <Header />
       <SideBar />
-      <Routes />
+      <div className={styles.mainContent}>
+        <Header />
+        <Routes />
+      </div>
     </div>
   );
 };
