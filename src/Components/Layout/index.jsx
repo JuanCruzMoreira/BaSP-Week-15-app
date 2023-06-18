@@ -1,15 +1,14 @@
 import Header from '../Header/index';
 import styles from './layout.module.css';
-import Routes from '../../Routes';
 import SideBar from '../SideBar';
 
-const Layout = () => {
+const Layout = (props) => {
   return (
     <div className={styles.container}>
-      <SideBar />
+      <SideBar routes={props.routes}/>
       <div className={styles.mainContent}>
         <Header />
-        <Routes />
+        <div className={styles.center}>{props.children}</div>
       </div>
     </div>
   );

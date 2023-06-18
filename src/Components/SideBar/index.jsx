@@ -1,53 +1,17 @@
 import React from 'react';
 import styles from './sideBar.module.css';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const SideBar = () => {
+const SideBar = (props) => {
   return (
     <aside>
-      <nav className={styles.navbar}>
-        <ul className={styles.rutes}>
-          <li>
-            {' '}
-            <NavLink activeClassName={styles.active} exact to="/">
-              Home
-            </NavLink>{' '}
-          </li>
-          <li>
-            <NavLink activeClassName={styles.active} to="/activities">
-              Activities
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName={styles.active} to="/admins">
-              Admins
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName={styles.active} to="/classes">
-              Classes
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName={styles.active} to="/members">
-              Members
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName={styles.active} to="/subscriptions">
-              Subscriptions
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName={styles.active} to="/super-admins">
-              Super Admins
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName={styles.active} to="/trainers">
-              Trainers
-            </NavLink>
-          </li>
+      <nav>
+        <ul className={styles.routes}>
+          {props.routes.map((route) => (
+            <li key={route.name}>
+              <Link to={route.path}>{route.name}</Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </aside>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTrainers, deleteTrainer } from '../../Redux/trainers/thunks';
+import { getTrainers, deleteTrainer } from '../../redux/trainers/thunks';
 import { useHistory } from 'react-router-dom';
 import styles from './trainers.module.css';
 import Table from '../Shared/Table/index';

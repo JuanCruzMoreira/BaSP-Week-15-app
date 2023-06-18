@@ -4,7 +4,7 @@ import Table from '../Shared/Table';
 import Button from '../Shared/Button';
 import styles from './activities.module.css';
 import { useHistory } from 'react-router-dom';
-import { getActivities, deleteActivities } from '../../Redux/activities/thunks';
+import { getActivities, deleteActivities } from '../../redux/activities/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import ClipLoader from 'react-spinners/ClipLoader';
 

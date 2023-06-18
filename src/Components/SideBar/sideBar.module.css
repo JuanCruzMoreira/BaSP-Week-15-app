@@ -1,16 +1,13 @@
 aside {
-  width: 20%;
+  width: 15%;
 }
 
-.navbar {
+nav {
   display: flex;
   flex: 2;
-  flex-direction: column;
-  position: fixed;
   bottom: 0;
   left: 0;
   height: 100%;
-  width: 20%;
   justify-content: space-around;
   align-items: flex-start;
   min-height: 100px;
@@ -18,17 +15,20 @@ aside {
   letter-spacing: 0.15em;
   z-index: 1;
 }
-.rutes {
+.routes {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
   list-style-type: none;
   margin-top: 6rem;
   height: 80%;
   width: 20%;
 }
 
-.rutes > li > a {
+.routes > li > a {
   position: relative;
   font-size: 1.2rem;
   font-weight: 500;
@@ -38,15 +38,15 @@ aside {
   color: #f9a414;
 }
 
-.rutes > li > a.active {
+.routes > li > a.active {
   border-bottom: 2px solid #f9a414;
 }
 
-.rutes > li > a {
+.routes > li > a {
   position: relative;
 }
 
-.rutes > li > a::after {
+.routes > li > a::after {
   content: '';
   position: absolute;
   left: 0;
@@ -59,6 +59,6 @@ aside {
   transition: transform 0.2s ease-in-out;
 }
 
-.rutes > li > a:hover::after {
+.routes > li > a:hover::after {
   transform: scaleX(1);
 }

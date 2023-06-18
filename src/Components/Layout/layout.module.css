@@ -6,7 +6,7 @@
 
 .mainContent {
   display: flex;
-  width: 80%;
+  width: 85%;
   flex: 8 1;
   flex-direction: column;
   justify-content: space-between;

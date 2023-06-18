@@ -3,8 +3,7 @@ import React from 'react';
 // import { useHistory } from 'react-router-dom';
 // import { LOGOUT_SUCCESS } from '../../../redux/auth/constants';
 // import { logout } from '../../../redux/auth/thunks';
-import { Button } from '../Shared';
-import styles from './home.module.css'
+import { Button } from '../../Shared';
 
 const Home = () => {
   // const dispatch = useDispatch();
@@ -18,14 +17,10 @@ const Home = () => {
   //   });
   // };
 
-  console.log('holaaaa')
-
   return (
-    <div className={styles.container}>
+    <div>
       {/* <Button onClick={onLogout} text="Logout" /> */}
-      {/* <div className={styles.container}> */}
-        <Button text="Logout" />
-      {/* </div> */}
+      <Button text="Logout" />
     </div>
   );
 };
