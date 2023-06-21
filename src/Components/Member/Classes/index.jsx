@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './classes.module.css';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button';
-import SharedModal from '../Shared/Modal';
+import Table from '../../Shared/Table';
+import Button from '../../Shared/Button';
+import SharedModal from '../../Shared/Modal';
 import { useHistory } from 'react-router-dom';
 
 const Classes = () => {

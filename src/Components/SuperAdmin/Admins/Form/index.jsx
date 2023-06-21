@@ -1,10 +1,10 @@
 import { useParams, useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Button from '../../Shared/Button';
-import SharedModal from '../../Shared/Modal';
+import Button from '../../../Shared/Button';
+import SharedModal from '../../../Shared/Modal';
 import { useDispatch } from 'react-redux';
-import { postAdmin, putAdmin } from '../../../redux/admins/thunks';
+import { postAdmin, putAdmin } from '../../../../redux/admins/thunks';
 
 const Form = () => {
   const history = useHistory();

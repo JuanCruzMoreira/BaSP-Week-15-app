@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import { useHistory, useParams } from 'react-router-dom';
-import SharedModal from '../../Shared/Modal';
-import Button from '../../Shared/Button';
+import SharedModal from '../../../Shared/Modal';
+import Button from '../../../Shared/Button';
 
 const MemberForm = () => {
   const [showAlert, setShowAlert] = useState(false);

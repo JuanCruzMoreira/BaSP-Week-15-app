@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button';
-import SharedModal from '../Shared/Modal';
+import Table from '../../Shared/Table';
+import Button from '../../Shared/Button';
+import SharedModal from '../../Shared/Modal';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteAdmin, getAdmins } from '../../redux/admins/thunks';
+import { deleteAdmin, getAdmins } from '../../../redux/admins/thunks';
 
 const Admins = () => {
   const [isDelete, setIsDelete] = useState(false);

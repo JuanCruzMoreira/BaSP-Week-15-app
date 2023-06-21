@@ -2,8 +2,8 @@ import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import Layout from '../Components/Layout';
 import Home from '../Components/Home';
 // import SuperAdmins from '../Components/SuperAdmin/SuperAdmins';
-import Admins from '../Components/Admins';
-import AdminForm from '../Components/Admins/Form';
+import Admins from '../Components/SuperAdmin/Admins';
+import AdminForm from '../Components/SuperAdmin/Admins/Form';
 // import SuperAdminForm from '../Components/SuperAdmin/SuperAdmins/Form';
 
 const routes = [

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './subscriptions.module.css';
-import Table from '../Shared/Table/index';
+import Table from '../../Shared/Table/index';
 import { useHistory } from 'react-router-dom';
-import SharedModal from '../Shared/Modal/index';
-import Button from '../Shared/Button/index';
+import SharedModal from '../../Shared/Modal/index';
+import Button from '../../Shared/Button/index';
 
 const Subscriptions = () => {
   const history = useHistory();
