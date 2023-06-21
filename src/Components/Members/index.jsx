@@ -46,7 +46,7 @@ const Members = () => {
   };
 
   const handleAdd = () => {
-    history.push('/members/form/');
+    history.push('/admin/members/form/');
   };
 
   const handleEdit = (id) => {

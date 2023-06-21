@@ -74,14 +74,14 @@ const Form = () => {
         </div>
       </form>
       {showModal && (
-            <Modal
-              show={showModal}
-              typeStyle={typeStyle}
-              title={titleModal}
-              body={bodyModal}
-              closeModal={handleCloseModal}
-            />
-          )}    </div>
+        <Modal
+          show={showModal}
+          typeStyle={typeStyle}
+          title={titleModal}
+          body={bodyModal}
+          closeModal={handleCloseModal}
+        />
+      )}    </div>
   );
 };
 

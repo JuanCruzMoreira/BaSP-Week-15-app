@@ -8,15 +8,17 @@ import {
   SIGN_UP_ERROR,
   SIGN_UP_PENDING,
   SIGN_UP_SUCCESS,
-  SET_AUTHENTICATION
+  SET_AUTHENTICATION,
+  GET_AUTH_PENDING,
+  GET_AUTH_ERROR,
+  GET_AUTH_SUCCESS
 } from './constants';
 
 const initialState = {
   isLoading: false,
   authenticated: false,
-  role: null,
-  email: null,
-  error: null
+  user: undefined,
+  error: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -24,6 +26,7 @@ const reducer = (state = initialState, action) => {
     case LOGIN_PENDING:
     case LOGOUT_PENDING:
     case SIGN_UP_PENDING:
+    case GET_AUTH_PENDING:
       return {
         ...state,
         isLoading: true
@@ -31,6 +34,7 @@ const reducer = (state = initialState, action) => {
     case LOGIN_ERROR:
     case LOGOUT_ERROR:
     case SIGN_UP_ERROR:
+    case GET_AUTH_ERROR:
       return {
         ...state,
         isLoading: false,
@@ -41,7 +45,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         authenticated: true,
-        role: action.payload.role
+        user: action.payload
       };
     }
     case LOGOUT_SUCCESS: {
@@ -49,13 +53,22 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         authenticated: false,
-        role: null
+        user: undefined,
+        role: undefined,
+        email: undefined
       };
     }
     case SIGN_UP_SUCCESS: {
       return {
         ...state,
         isLoading: false
+      };
+    }
+    case GET_AUTH_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        user: action.payload
       };
     }
     case SET_AUTHENTICATION: {

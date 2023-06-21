@@ -8,7 +8,10 @@ import {
   SIGN_UP_ERROR,
   SIGN_UP_PENDING,
   SIGN_UP_SUCCESS,
-  SET_AUTHENTICATION
+  SET_AUTHENTICATION,
+  GET_AUTH_PENDING,
+  GET_AUTH_SUCCESS,
+  GET_AUTH_ERROR
 } from './constants';
 
 export const loginPending = () => {
@@ -70,11 +73,29 @@ export const signUpError = (error) => {
   };
 };
 
-export const setAuthentication = (role) => {
+export const setAuthentication = (user) => {
   return {
     type: SET_AUTHENTICATION,
-    payload: {
-      role
-    }
+    payload: user
+  };
+};
+
+export const getAuthenticationPending = () => {
+  return {
+    type: GET_AUTH_PENDING
+  };
+};
+
+export const getAuthenticationSuccess = (data) => {
+  return {
+    type: GET_AUTH_SUCCESS,
+    payload: data
+  };
+};
+
+export const getAuthenticationError = (error) => {
+  return {
+    type: GET_AUTH_ERROR,
+    payload: error
   };
 };

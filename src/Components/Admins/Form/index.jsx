@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import SharedModal from '../../Shared/Modal';
+import { useDispatch } from 'react-redux';
+import { postAdmin, putAdmin } from '../../../redux/admins/thunks';
 
 const Form = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const [formData, setFormData] = useState({
     firstName: '',
@@ -43,30 +46,24 @@ const Form = () => {
       getAdminById(id);
     }
   }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (id) {
-      putAdmin(formData, id);
+      editAdmin(formData, id);
     } else {
-      postAdmin(formData);
+      createAdmin(formData);
     }
   };
 
-  const postAdmin = async (admin) => {
+  const createAdmin = async (admin) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(admin)
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setAlertMessage(data.message);
+      const response = await dispatch(postAdmin(admin))
+      if (response.error) {
+        setAlertMessage(response.message);
         setShowAlert(true);
       } else {
-        setAlertMessage(data.message);
+        setAlertMessage(response.message);
         setShowSuccessAlert(true);
       }
     } catch (error) {
@@ -74,15 +71,9 @@ const Form = () => {
     }
   };
 
-  const putAdmin = async (admin, id) => {
+  const editAdmin = async (admin, id) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(admin)
-      });
+      const response = await dispatch(putAdmin(admin, id))
       const data = await response.json();
       if (!response.ok) {
         setAlertMessage(data.message);
@@ -101,7 +92,7 @@ const Form = () => {
       setShowAlert(false);
     }
     setShowAlert(false);
-    history.push('/admins');
+    history.push('/super-admin/admins');
   };
 
   const handleExitAlert = () => {

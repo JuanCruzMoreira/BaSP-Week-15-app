@@ -5,7 +5,10 @@ import {
   DELETE_MEMBER_SUCCESS,
   GET_MEMBER_BY_ID_PENDING,
   GET_MEMBER_BY_ID_SUCCESS,
-  GET_MEMBER_BY_ID_ERROR
+  GET_MEMBER_BY_ID_ERROR,
+  ADD_MEMBER_PENDING,
+  ADD_MEMBER_SUCCESS,
+  ADD_MEMBER_ERROR,
 } from './constants';
 
 const INITIAL_STATE = {
@@ -56,6 +59,24 @@ const membersReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         data: state.data.data?.filter((member) => member.id !== action.payload)
+      };
+    case ADD_MEMBER_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case ADD_MEMBER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: [...state.data, action.payload],
+      };
+    case ADD_MEMBER_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
       };
     default:
       return state;
