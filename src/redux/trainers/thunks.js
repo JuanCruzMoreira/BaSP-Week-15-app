@@ -14,7 +14,11 @@ export const getTrainers = () => {
   return async (dispatch) => {
     dispatch(getTrainersPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainers`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainers`, {
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
+      });
       const data = await response.json();
       dispatch(getTrainersSuccess(data.data));
     } catch (error) {
@@ -28,7 +32,10 @@ export const getTrainersById = (id) => {
     dispatch(getTrainersByIdPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainers/${id}`, {
-        method: 'GET'
+        method: 'GET',
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
       });
       const data = await response.json();
       dispatch(getTrainersByIdSuccess(data.data));
@@ -45,7 +52,10 @@ export const deleteTrainer = (trainerId) => {
 
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/trainers/${trainerId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
       });
 
       if (!response.ok) {

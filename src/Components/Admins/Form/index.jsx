@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import styles from './form.module.css';
 import Button from '../../Shared/Button';
 import SharedModal from '../../Shared/Modal';
+import { getAdminById, postAdmin } from '../../../redux/admins/thunks';
+import { useDispatch } from 'react-redux';
 
 const Form = () => {
   const history = useHistory();
@@ -19,11 +21,11 @@ const Form = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const dispatch = useDispatch();
 
-  const getAdminById = async (id) => {
+  const setAdmin = async (id) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`);
-      const data = await response.json();
+      const data = await dispatch(getAdminById(id));
       setFormData({
         firstName: data.data.firstName,
         lastName: data.data.lastName,
@@ -40,39 +42,36 @@ const Form = () => {
 
   useEffect(() => {
     if (id) {
-      getAdminById(id);
+      setAdmin(id);
     }
   }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (id) {
       putAdmin(formData, id);
     } else {
-      postAdmin(formData);
+      const data = await dispatch(postAdmin(formData));
+      console.log(data)
+      setAlertMessage(data.message);
+      setShowSuccessAlert(true);
     }
   };
 
-  const postAdmin = async (admin) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(admin)
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        setAlertMessage(data.message);
-        setShowAlert(true);
-      } else {
-        setAlertMessage(data.message);
-        setShowSuccessAlert(true);
-      }
-    } catch (error) {
-      alert(error);
-    }
-  };
+  // const handlePostAdmin = async (admin) => {
+  //   try {
+  //     const data = await dispatch(postAdmin(admin))
+  //     if (!response.ok) {
+  //       setAlertMessage(data.message);
+  //       setShowAlert(true);
+  //     } else {
+  //       setAlertMessage(data.message);
+  //       setShowSuccessAlert(true);
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
 
   const putAdmin = async (admin, id) => {
     try {
@@ -101,7 +100,7 @@ const Form = () => {
       setShowAlert(false);
     }
     setShowAlert(false);
-    history.push('/admins');
+    history.push('/super-admin/admins');
   };
 
   const handleExitAlert = () => {

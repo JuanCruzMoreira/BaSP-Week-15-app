@@ -11,7 +11,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 
 const Members = () => {
   const history = useHistory();
-  const members = useSelector((state) => state.members.data.data);
+  const members = useSelector((state) => state.members.data);
   const loading = useSelector((state) => state.members.loading);
   const [showWarning, setShowWarning] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -23,6 +23,7 @@ const Members = () => {
 
   useEffect(() => {
     dispatch(getMembers());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showTable]);
 
   const handleConfirmDelete = async () => {
@@ -46,11 +47,11 @@ const Members = () => {
   };
 
   const handleAdd = () => {
-    history.push('/members/form/');
+    history.push('/admin/members/form/');
   };
 
   const handleEdit = (id) => {
-    history.push(`/members/form/${id}`);
+    history.push(`/admin/members/form/${id}`);
   };
 
   return (

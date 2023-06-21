@@ -1,15 +1,64 @@
-.form-input,
-.form-select {
+.formInput {
+  height: 2rem;
+  border-radius: 5px;
+  margin-top: 2%;
+  margin-bottom: 2%;
   width: 20vw;
-  padding: 1rem 1rem;
-  margin: 1rem 0;
-  border: 0.1rem solid rgba(55, 56, 103, 0.4);
-  border-radius: 0.2rem;
-  box-sizing: border-box;
+  border: solid 1px;
+  border-color: #0f232e;
 }
 
-.form-label {
+.formInputError {
+  height: 2rem;
+  border-radius: 5px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  width: 20vw;
+  border: solid 1px;
+  border-color: red;
+}
+
+.formSelect {
+  height: 2.3rem;
+  font-size: 80%;
+  border-radius: 5px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  width: 20.35vw;
+  border: solid 1px;
+  border-color: #0f232e;
+}
+
+.formSelectError {
+  height: 2.3rem;
+  font-size: 80%;
+  border-radius: 5px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  width: 20.35vw;
+  border: solid 1px;
+  border-color: red;
+}
+
+.error {
+  color: red;
+}
+
+
+.inputDiv  {
+  display: flex;
+  flex-direction: column;
   text-align: left;
-  color: rgb(24, 24, 24);
-  font-size: 0.7rem;
+}
+
+.inputDiv > input {
+  align-self: center;
+}
+
+.errorMsg {
+  color: red;
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 90%;
+  max-width: 20vw;
 }

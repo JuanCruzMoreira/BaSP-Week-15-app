@@ -1,65 +1,53 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './admins.module.css';
 import Table from '../Shared/Table';
 import Button from '../Shared/Button';
 import SharedModal from '../Shared/Modal';
+
 import { useHistory } from 'react-router-dom';
+import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
+import { useSelector, useDispatch } from 'react-redux';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const Admins = () => {
+  const history = useHistory();
+  const loading = useSelector((state) => state.admins.loading);
+  const dispatch = useDispatch();
+
+  const [showModal, setShowModal] = useState(false);
+
   const [isDelete, setIsDelete] = useState(false);
   const [typeStyle, setTypeStyle] = useState('');
-  const [showModal, setShowModal] = useState(false);
   const [modalInformation, setModalInformation] = useState({ title: '', body: '' });
-  const [admins, setAdmins] = useState([]);
   const [idAdmin, setIdAdmin] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const history = useHistory();
-
-  const getAdmins = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins`);
-      if (!response.ok) {
-        throw new Error('Error retrieving admins');
-      }
-      const data = await response.json();
-      setAdmins(data.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
-    getAdmins();
-  });
+    dispatch(getAdmins());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  const admins = useSelector((state) => state.admins.data?.data);
   const deleteAdmins = async (id) => {
+    setShowModal(false);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admins/${id}`, {
-        method: 'DELETE'
-      });
-      const data = await response.json();
-      if (!response.ok) {
+      const data = await dispatch(deleteAdmin(id));
         setAlertMessage(data.message);
         setShowAlert(true);
-      } else {
-        setAlertMessage(data.message);
-        setShowSuccessAlert(true);
-      }
-      setAdmins([...admins.filter((admin) => admin._id !== data.data._id)]);
-      setShowModal(false);
     } catch (error) {
+      setAlertMessage(error.message);
       console.error(error);
     }
   };
 
   const handleAddAdmin = () => {
-    history.push('/admins/form');
+    history.push('/super-admin/admins/form');
   };
 
   const handleUpdateAdmin = (id) => {
-    history.push(`/admins/form/${id}`);
+    history.push(`/super-admin/admins/form/${id}`);
   };
 
   const handleDeleteAdmin = (id) => {
@@ -89,7 +77,13 @@ const Admins = () => {
         <h2>Admins</h2>
         <Button text={'+ Add Admins'} type={'add'} clickAction={handleAddAdmin} />
       </div>
-      {admins.length !== 0 ? (
+      {loading ? (
+        <ClipLoader />
+      ) : admins?.length === (0 || undefined) ? (
+        <>
+          <h3>There are no admins in the database</h3>
+        </>
+      ) : (
         <>
           <SharedModal
             isDelete={false}
@@ -122,10 +116,6 @@ const Admins = () => {
             handleUpdateItem={handleUpdateAdmin}
             handleDeleteItem={handleDeleteAdmin}
           />
-        </>
-      ) : (
-        <>
-          <h3>There are no admins in the database</h3>
         </>
       )}
     </section>

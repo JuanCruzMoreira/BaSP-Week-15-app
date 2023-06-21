@@ -3,6 +3,9 @@ import styles from './form.module.css';
 import { useHistory, useParams } from 'react-router-dom';
 import SharedModal from '../../Shared/Modal';
 import Button from '../../Shared/Button';
+import { getMemberById, postMember } from '../../../redux/members/thunks';
+import { useDispatch } from 'react-redux';
+
 
 const MemberForm = () => {
   const [showAlert, setShowAlert] = useState(false);
@@ -11,6 +14,7 @@ const MemberForm = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const { id } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [member, setMember] = useState({
     firstName: '',
@@ -42,10 +46,9 @@ const MemberForm = () => {
     });
   };
 
-  const getMemberById = async (id) => {
+  const setSelectedMember = async (id) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members/${id}`);
-      const data = await response.json();
+      const data = dispatch(getMemberById());
       setMember(data.data);
     } catch (error) {
       console.error(error);
@@ -83,15 +86,8 @@ const MemberForm = () => {
 
   const addMember = async (member) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(member)
-      });
-      const data = await response.json();
-      if (!response.ok) {
+      const data = await dispatch(postMember(member))
+      if (!data) {
         setAlertMessage(data.message);
         setIsSuccess(false);
         setShowAlert(true);
@@ -108,7 +104,7 @@ const MemberForm = () => {
 
   const handleCloseAlert = () => {
     if (isSuccess) {
-      history.push('/members');
+      history.push('/admin/members');
     } else {
       setShowAlert(false);
     }
@@ -130,8 +126,9 @@ const MemberForm = () => {
 
   useEffect(() => {
     if (id) {
-      getMemberById(id);
+      setSelectedMember(id);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
@@ -204,8 +201,8 @@ const MemberForm = () => {
                   >
                     <option value="">Select an option</option>
                     <option value="Black">Black</option>
-                    <option value="Gold">Gold</option>
-                    <option value="Silver">Silver</option>
+                    <option value="Classic">Classic</option>
+                    <option value="Only Classes">Only Classes</option>
                   </select>
                 </div>
                 <div>
@@ -227,7 +224,7 @@ const MemberForm = () => {
           </div>
         </form>
         <div className={styles.buttonContainer}>
-          <Button text={'Cancel'} type={'cancel'} clickAction={() => history.push('/members')} />
+          <Button text={'Cancel'} type={'cancel'} clickAction={() => history.push('/admin/members')} />
           <Button text={id ? 'Update' : 'Add'} type={'submit'} clickAction={handleSubmit} />
         </div>
       </div>

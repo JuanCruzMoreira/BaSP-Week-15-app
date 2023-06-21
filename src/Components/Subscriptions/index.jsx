@@ -60,7 +60,6 @@ const Subscriptions = () => {
   useEffect(() => {
     getSubscriptions();
   }, []);
-  console.log(subscriptions);
   return (
     <section className={styles.subscriptionContainer}>
       <div className={styles.buttonContainer}>

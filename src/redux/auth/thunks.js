@@ -13,7 +13,7 @@ import {
 export const login = (credentials) => {
   return (dispatch) => {
     dispatch(loginPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -40,7 +40,7 @@ export const login = (credentials) => {
 export const logout = () => {
   return (dispatch) => {
     dispatch(logoutPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/auth/logout`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/api/auth/logout`, {
       method: 'POST',
       headers: {
         token: sessionStorage.getItem('token')

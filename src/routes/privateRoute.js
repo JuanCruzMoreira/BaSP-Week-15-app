@@ -1,32 +1,36 @@
-// import React, { useEffect } from 'react';
-import React from 'react';
-// import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-// import { setAuthentication } from '../redux/auth/actions';
+import { setAuthentication } from '../redux/auth/actions';
 
 const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const token = sessionStorage.getItem('token');
-  //   const role = sessionStorage.getItem('role');
-  //   const email = sessionStorage.getItem('email');
-  //   if (token && role && email) {
-  //     dispatch(
-  //       setAuthentication({
-  //         role,
-  //         email
-  //       })
-  //     );
-  //   }
-  // }, []);
+  const role = sessionStorage.getItem('role');
+  const token = sessionStorage.getItem('token');
+  const email = sessionStorage.getItem('email');
+  const error = useSelector((state) => state.auth?.error)
+
+  useEffect(() => {
+    if (token && role && email) {
+      dispatch(
+        setAuthentication({
+          role,
+          email
+        })
+      );
+    }
+  }, []);
 
   return (
     <Route
       {...rest}
       render={(routeProps) => {
-        // if (sessionStorage.getItem('token') && sessionStorage.getItem('role') === rest.role) {
-          if(rest.role === rest.role) { //TODO: BORRAR
+        if ((!role || role !== rest.role) && !error) {
+          console.log('asd');
+          return <Redirect to={'/auth/not-allowed'} />;
+        }
+        if (token && role === rest.role) {
           return <RouteComponent {...routeProps} />;
         }
         return <Redirect to={'/auth/login'} />;

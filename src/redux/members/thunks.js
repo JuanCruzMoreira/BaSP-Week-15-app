@@ -2,21 +2,28 @@ import {
   getMembersPending,
   getMembersSuccess,
   getMembersError,
-  deleteMemberPending,
-  deleteMemberSuccess,
-  deleteMemberError,
   getMemberByIdPending,
   getMemberByIdSuccess,
-  getMemberByIdError
+  getMemberByIdError,
+  postMemberPending,
+  postMemberSuccess,
+  postMemberError,
+  deleteMemberPending,
+  deleteMemberSuccess,
+  deleteMemberError
 } from './actions';
 
 export const getMembers = () => {
   return async (dispatch) => {
     dispatch(getMembersPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members`, {
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
+      });
       const data = await response.json();
-      dispatch(getMembersSuccess(data));
+      dispatch(getMembersSuccess(data.data));
       return data;
     } catch (error) {
       dispatch(getMembersError(error));
@@ -24,11 +31,16 @@ export const getMembers = () => {
   };
 };
 
-export const getMembersById = (id) => {
+export const getMemberById = (id) => {
   return async (dispatch) => {
     dispatch(getMemberByIdPending());
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members/${id}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members/${id}`, {
+        method: 'GET',
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
+      });
       const data = await response.json();
       dispatch(getMemberByIdSuccess(data));
       return data;
@@ -44,7 +56,10 @@ export const deleteMember = (id) => {
     dispatch(deleteMemberPending());
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          token: sessionStorage.getItem('token')
+        }
       });
       const data = await response.json();
       if (response.ok) {
@@ -56,6 +71,29 @@ export const deleteMember = (id) => {
     } catch (error) {
       dispatch(deleteMemberError(error));
       throw error;
+    }
+  };
+};
+
+export const postMember = (body) => {
+  return async (dispatch) => {
+    dispatch(postMemberPending());
+    try{
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/members`, {
+        method: 'POST',
+        headers: {
+          token: sessionStorage.getItem('token'),
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+      const data = await response.json();
+
+      dispatch(postMemberSuccess(data.data));
+      return data;
+    } catch (error) {
+      console.error(error)
+      return dispatch(postMemberError(error));
     }
   };
 };
