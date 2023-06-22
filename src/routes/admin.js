@@ -1,10 +1,10 @@
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import Layout from '../Components/Layout';
 import Home from '../Components/Home';
-import Members from '../Components/Members';
-import MemberForm from '../Components/Members/Form';
-import Trainers from '../Components/Trainers';
-import TrainerForm from '../Components/Trainers/Form';
+import Members from '../Components/Admin/Members';
+import MemberForm from '../Components/Admin/Members/Form';
+import Trainers from '../Components/Admin/Trainers';
+import TrainerForm from '../Components/Admin/Trainers/Form';
 
 
 const routes = [

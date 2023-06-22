@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import SharedModal from '../Shared/Modal';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button';
+import SharedModal from '../../Shared/Modal';
+import Table from '../../Shared/Table';
+import Button from '../../Shared/Button';
 import styles from './activities.module.css';
 import { useHistory } from 'react-router-dom';
-import { getActivities, deleteActivities } from '../../redux/activities/thunks';
+import { getActivities, deleteActivities } from '../../../redux/activities/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import ClipLoader from 'react-spinners/ClipLoader';
 
@@ -25,6 +25,7 @@ const Activities = () => {
   useEffect(() => {
     dispatch(getActivities());
     setReload(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
   const handleAddItem = () => {

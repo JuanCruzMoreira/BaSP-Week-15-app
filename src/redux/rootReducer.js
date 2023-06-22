@@ -9,11 +9,8 @@ import authReducer from './auth/reducer';
 const rootReducer = combineReducers({
   admins: adminsReducer,
   activities: activitiesReducer,
-  // ,classes: classesReducer
   members: membersReducer,
   auth: authReducer,
-  // ,subscriptions: subscriptionsReducer
-  // ,superAdmins: superAdminsReducer
   trainers: trainersReducer
 });
 

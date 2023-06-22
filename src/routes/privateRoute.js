@@ -20,6 +20,7 @@ const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
         })
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -27,7 +28,6 @@ const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
       {...rest}
       render={(routeProps) => {
         if ((!role || role !== rest.role) && !error) {
-          console.log('asd');
           return <Redirect to={'/auth/not-allowed'} />;
         }
         if (token && role === rest.role) {

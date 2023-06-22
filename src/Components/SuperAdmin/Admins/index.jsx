@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styles from './admins.module.css';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button';
-import SharedModal from '../Shared/Modal';
+import Table from '../../Shared/Table';
+import Button from '../../Shared/Button';
+import SharedModal from '../../Shared/Modal';
 
 import { useHistory } from 'react-router-dom';
-import { getAdmins, deleteAdmin } from '../../redux/admins/thunks';
+import { getAdmins, deleteAdmin } from '../../../redux/admins/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import ClipLoader from 'react-spinners/ClipLoader';
 
@@ -29,7 +29,7 @@ const Admins = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const admins = useSelector((state) => state.admins.data?.data);
+  const admins = useSelector((state) => state.admins?.data);
   const deleteAdmins = async (id) => {
     setShowModal(false);
     try {

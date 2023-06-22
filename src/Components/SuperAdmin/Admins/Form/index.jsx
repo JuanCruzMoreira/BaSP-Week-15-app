@@ -1,9 +1,9 @@
 import { useParams, useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styles from './form.module.css';
-import Button from '../../Shared/Button';
-import SharedModal from '../../Shared/Modal';
-import { getAdminById, postAdmin } from '../../../redux/admins/thunks';
+import Button from '../../../Shared/Button';
+import SharedModal from '../../../Shared/Modal';
+import { getAdminById, postAdmin } from '../../../../redux/admins/thunks';
 import { useDispatch } from 'react-redux';
 
 const Form = () => {
@@ -44,6 +44,7 @@ const Form = () => {
     if (id) {
       setAdmin(id);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (e) => {
@@ -52,26 +53,10 @@ const Form = () => {
       putAdmin(formData, id);
     } else {
       const data = await dispatch(postAdmin(formData));
-      console.log(data)
       setAlertMessage(data.message);
       setShowSuccessAlert(true);
     }
   };
-
-  // const handlePostAdmin = async (admin) => {
-  //   try {
-  //     const data = await dispatch(postAdmin(admin))
-  //     if (!response.ok) {
-  //       setAlertMessage(data.message);
-  //       setShowAlert(true);
-  //     } else {
-  //       setAlertMessage(data.message);
-  //       setShowSuccessAlert(true);
-  //     }
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // };
 
   const putAdmin = async (admin, id) => {
     try {

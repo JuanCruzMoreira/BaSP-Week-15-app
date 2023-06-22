@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import { useHistory, useParams } from 'react-router-dom';
-import SharedModal from '../../Shared/Modal';
-import Button from '../../Shared/Button';
-import { getMemberById, postMember } from '../../../redux/members/thunks';
+import SharedModal from '../../../Shared/Modal';
+import Button from '../../../Shared/Button';
+import { getMemberById, postMember } from '../../../../redux/members/thunks';
 import { useDispatch } from 'react-redux';
 
 

@@ -1,7 +1,7 @@
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import Layout from '../Components/Layout';
 import Login from '../Components/Auth/Login';
-// import SignUp from '../Components/Auth/SignUp';
+import SignUp from '../Components/Auth/SignUp';
 import NotAllowed from '../Components/Auth/NotAllowed';
 
 const routes = [
@@ -21,7 +21,7 @@ const AuthRoutes = () => {
     <Layout routes={routes}>
       <Switch>
         <Route path={`${url}/login`} component={Login} />
-        {/* <Route path={`${url}/sign-up`} component={SignUp} /> */}
+        <Route path={`${url}/sign-up`} component={SignUp} />
         <Route path={`${url}/not-allowed`} component={NotAllowed} />
         <Redirect to={`${url}/login`} />
       </Switch>

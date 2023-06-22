@@ -1,101 +1,186 @@
-// import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { signUpEmployee } from '../../../redux/auth/thunks';
-// import { SIGN_UP_SUCCESS } from '../../../redux/auth/constants';
-// import styles from './signup.module.css';
-// import { Button, TextInput, Spinner } from '../../Shared';
+import { useState } from 'react';
+import styles from './signup.module.css';
+import { useHistory, useParams } from 'react-router-dom';
+import SharedModal from '../../Shared/Modal';
+import Button from '../../Shared/Button';
+import { postMember } from '../../../redux/members/thunks';
+import { useDispatch } from 'react-redux';
 
-// const Form = () => {
-//   const history = useHistory();
-//   const dispatch = useDispatch();
-//   const isLoading = useSelector((state) => state.auth.isLoading);
-//   const [employeeInput, setEmployeeInput] = useState({
-//     name: '',
-//     lastName: '',
-//     email: '',
-//     phone: '',
-//     password: ''
-//   });
 
-//   const onChange = (e) => {
-//     setEmployeeInput({ ...employeeInput, [e.target.name]: e.target.value });
-//   };
+const Form = () => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const { id } = useParams();
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-//   const onSubmit = async () => {
-//     const res = await dispatch(signUpEmployee(employeeInput));
-//     if (res.type === SIGN_UP_SUCCESS) {
-//       history.push('/auth/login');
-//     }
-//   };
+  const [member, setMember] = useState({
+    firstName: '',
+    lastName: '',
+    dni: '',
+    phone: '',
+    email: '',
+    password: '',
+    city: '',
+    birthDay: '',
+    postalCode: '',
+    isActive: false,
+    membership: ''
+  });
 
-//   if (isLoading) {
-//     return <Spinner isLoading={isLoading} />;
-//   }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    addMember(member);
+  };
 
-//   return (
-//     <div className={styles.container}>
-//       <h1 className={styles.title}>Register employee</h1>
-//       <form className={styles.form} onSubmit={onSubmit}>
-//         <TextInput
-//           label="Name"
-//           id="name"
-//           name="name"
-//           value={employeeInput.name}
-//           onChange={onChange}
-//           type="text"
-//           placeholder="Name"
-//         />
-//         <TextInput
-//           label="Last Name"
-//           id="lastName"
-//           name="lastName"
-//           value={employeeInput.lastName}
-//           onChange={onChange}
-//           type="text"
-//           placeholder="Last Name"
-//         />
-//         <TextInput
-//           label="Phone"
-//           id="phone"
-//           name="phone"
-//           value={employeeInput.phone}
-//           onChange={onChange}
-//           type="text"
-//           placeholder="Phone"
-//         />
-//         <TextInput
-//           label="Email"
-//           id="email"
-//           name="email"
-//           value={employeeInput.email}
-//           onChange={onChange}
-//           type="text"
-//           placeholder="Email"
-//         />
-//         <TextInput
-//           label="Password"
-//           id="password"
-//           name="password"
-//           value={employeeInput.password}
-//           onChange={onChange}
-//           type="password"
-//           placeholder="Password"
-//         />
-//         <div className={styles.butCont}>
-//           <Button
-//             text="Cancel"
-//             type="reset"
-//             variant="secondary"
-//             onClick={() => {
-//               history.goBack();
-//             }}
-//           />
-//           <Button text="Submit" type="submit" variant="primary" />
-//         </div>
-//       </form>
-//     </div>
-//   );
-// };
+  const onChange = (e) => {
+    setMember({
+      ...member,
+      [e.target.name]: e.target.value
+    });
+  };
 
-// export default Form;
+  const addMember = async (member) => {
+    try {
+      const data = await dispatch(postMember(member))
+      if (!data) {
+        setAlertMessage(data.message);
+        setIsSuccess(false);
+        setShowAlert(true);
+      } else {
+        setAlertMessage(data.message);
+        setIsSuccess(true);
+        setShowAlert(true);
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const handleCloseAlert = () => {
+    if (isSuccess) {
+      history.push('/admin/members');
+    } else {
+      setShowAlert(false);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const parts = dateString.split('-');
+    const year = parseInt(parts[0]);
+    const month = parseInt(parts[1]) - 1;
+    const day = parseInt(parts[2]);
+    const date = new Date(year, month, day);
+
+    const formattedYear = date.getFullYear();
+    const formattedMonth = (date.getMonth() + 1).toString().padStart(2, '0');
+    const formattedDay = date.getDate().toString().padStart(2, '0');
+
+    return `${formattedYear}-${formattedMonth}-${formattedDay}`;
+  };
+
+  return (
+    <>
+      <div className={styles.formContainer}>
+        <h2 className={styles.formTitle}>{id ? 'Update Member' : 'Add Member'}</h2>
+        <SharedModal
+          isDelete={false}
+          show={showAlert}
+          closeModal={handleCloseAlert}
+          typeStyle={isSuccess ? 'success' : 'error'}
+          title={isSuccess ? 'Success' : 'Something went wrong'}
+          body={alertMessage}
+        />
+        <form className={styles.formMembers}>
+          <div className={`${styles.formColumn} ${styles.formLeft}`}>
+            <div className={styles.formInputs}>
+              <label>Name</label>
+              <input type="text" value={member.firstName} onChange={onChange} name="firstName" />
+            </div>
+            <div className={styles.formInputs}>
+              <label>Last Name</label>
+              <input type="text" value={member.lastName} onChange={onChange} name="lastName" />
+            </div>
+            <div className={styles.formInputs}>
+              <label>DNI</label>
+              <input type="text" value={member.dni} onChange={onChange} name="dni" />
+            </div>
+            <div className={styles.formInputs}>
+              <label>Phone</label>
+              <input type="text" value={member.phone} onChange={onChange} name="phone" />
+            </div>
+            <div className={styles.formInputs}>
+              <label>Email</label>
+              <input type="email" value={member.email} onChange={onChange} name="email" />
+            </div>
+          </div>
+          <div className={`${styles.formColumn} ${styles.formRight}`}>
+            <div className={styles.formInputs}>
+              <label>Password</label>
+              <input type="password" value={member.password} onChange={onChange} name="password" />
+            </div>
+            <div className={styles.formInputs}>
+              <label>City</label>
+              <input type="text" value={member.city} onChange={onChange} name="city" />
+            </div>
+            <div className={styles.formInputs}>
+              <label>Date of birth</label>
+              <input
+                type="date"
+                onClick={() => setIsEditing(true)}
+                value={isEditing ? member.birthDay : formatDate(member.birthDay)}
+                onChange={onChange}
+                name="birthDay"
+              />
+            </div>
+            <div className={styles.formInputs}>
+              <label>ZIP code</label>
+              <input type="text" value={member.postalCode} onChange={onChange} name="postalCode" />
+            </div>
+            <div className={styles.formInputsDiv}>
+              <div className={styles.membershipActive}>
+                <div>
+                  <label>Memberships</label>
+                  <select
+                    className={styles.formSelect}
+                    value={member.membership}
+                    onChange={onChange}
+                    name="membership"
+                  >
+                    <option value="">Select an option</option>
+                    <option value="Black">Black</option>
+                    <option value="Classic">Classic</option>
+                    <option value="Only Classes">Only Classes</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Active?</label>
+                  <input
+                    type="checkbox"
+                    checked={member.isActive}
+                    onChange={(e) => {
+                      setMember({
+                        ...member,
+                        isActive: e.target.checked
+                      });
+                    }}
+                    name="isActive"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div className={styles.buttonContainer}>
+          <Button text={'Cancel'} type={'cancel'} clickAction={() => history.push('/admin/members')} />
+          <Button text={id ? 'Update' : 'Add'} type={'submit'} clickAction={handleSubmit} />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Form;

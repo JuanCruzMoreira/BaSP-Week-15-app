@@ -84,7 +84,7 @@ const adminsReducer = (state = INITIAL_STATE, action) => {
     case DELETE_ADMIN_SUCCESS:
       return {
         ...state,
-        data: state.data.data?.filter((admin) => admin.id !== action.payload)
+        data: state.data?.filter((admin) => admin.id !== action.payload)
       };
     case DELETE_ADMIN_ERROR:
       return {

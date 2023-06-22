@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styles from './form.module.css';
-import Button from '../../Shared/Button/index';
-import SharedModal from '../../Shared/Modal/index';
+import Button from '../../../Shared/Button/index';
+import SharedModal from '../../../Shared/Modal/index';
 
 const Form = () => {
   const history = useHistory();
@@ -38,6 +38,7 @@ const Form = () => {
     if (id) {
       getTrainerById();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCloseModal = () => {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Table from '../Shared/Table';
-import Button from '../Shared/Button';
-import SharedModal from '../Shared/Modal';
+import Table from '../../Shared/Table';
+import Button from '../../Shared/Button';
+import SharedModal from '../../Shared/Modal';
 import styles from './members.module.css';
 
 import { useHistory } from 'react-router-dom';
-import { getMembers, deleteMember } from '../../redux/members/thunks';
+import { getMembers, deleteMember } from '../../../redux/members/thunks';
 import { useSelector, useDispatch } from 'react-redux';
 import ClipLoader from 'react-spinners/ClipLoader';
 

@@ -23,7 +23,7 @@ export const getAdmins = () => {
         }
       });
       const data = await response.json();
-      dispatch(getAdminsSuccess(data));
+      dispatch(getAdminsSuccess(data.data));
       return data;
     } catch (error) {
       dispatch(getAdminsError(error));
@@ -42,7 +42,8 @@ export const getAdminById = (id) => {
         }
       });
       const data = await response.json();
-      dispatch(getAdminByIdSuccess(data));
+
+      dispatch(getAdminByIdSuccess(data.data));
       return data;
     } catch (error) {
       dispatch(getAdminByIdError(error));
