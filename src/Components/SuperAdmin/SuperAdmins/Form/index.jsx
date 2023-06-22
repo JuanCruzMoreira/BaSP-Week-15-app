@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import styles from './form.module.css';
-import SharedModal from '../../Shared/Modal';
-import Button from '../../Shared/Button';
+import SharedModal from '../../../Shared/Modal';
+import Button from '../../../Shared/Button';
 
 const Form = () => {
   const { id } = useParams();

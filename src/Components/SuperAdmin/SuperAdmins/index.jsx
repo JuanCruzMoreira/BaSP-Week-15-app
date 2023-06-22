@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styles from './super-admins.module.css';
-import Table from '../Shared/Table/index';
-import SharedModal from '../Shared/Modal';
-import Button from '../Shared/Button/index';
+import Table from '../../Shared/Table/index';
+import SharedModal from '../../Shared/Modal';
+import Button from '../../Shared/Button/index';
 import { useHistory } from 'react-router-dom';
 
 const SuperAdmins = () => {
